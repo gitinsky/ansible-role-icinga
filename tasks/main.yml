@@ -1,0 +1,12 @@
+---
+- name: add Icinga repo key
+  shell: wget -O - http://packages.icinga.org/icinga.key | apt-key add -
+
+- name: add Icinga repo
+  template: src=icinga-trusty dest=/etc/apt/sources.list.d/icinga.list
+  notify: apt-get update
+
+- meta: flush_handlers
+
+- name: install icinga2
+  apt: name=icinga2 state=present
